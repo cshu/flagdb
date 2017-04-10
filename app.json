@@ -1,0 +1,8 @@
+{
+	"keywords": ["go"],
+	"buildpacks":[
+		{
+			"url": "heroku/go"
+		}
+	]
+}
