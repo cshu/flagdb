@@ -1,0 +1,48 @@
+{
+	"manifest_version": 2,
+	"name": "Website Rating",
+	"version": "1.0",
+	"applications": {
+		"gecko": {
+			"strict_min_version": "45.0"
+		}
+	},
+	"description": "Show different color on an icon to denote good or bad rating of a website. Use FlagDB (http://flagdb.herokuapp.com/).",
+	"homepage_url": "https://github.com/cshu/flagdb/tree/master/webext",
+	"icons": {
+		"48": "icons/48.png"
+	},
+	"permissions": [
+		"*://flagdb.herokuapp.com/*",
+		"activeTab",
+		"alarms",
+		"bookmarks",
+		"contextMenus",
+		"cookies",
+		"downloads",
+		"downloads.open",
+		"history",
+		"idle",
+		"nativeMessaging",
+		"notifications",
+		"storage",
+		"tabs",
+		"webNavigation",
+		"webRequest",
+		"webRequestBlocking"
+	],
+	"content_scripts": [
+		{
+			"matches": ["*://*/*"],
+			"js": ["contentscr.js"],
+			"run_at": "document_start"
+		}
+	],
+	"background":{
+		"scripts":["bg.js"]
+	},
+	"browser_action": {
+		"default_icon": "icons/init32.png",
+		"default_title": "Website Rating"
+	}
+}
