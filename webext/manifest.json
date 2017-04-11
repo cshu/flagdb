@@ -14,29 +14,7 @@
 	},
 	"permissions": [
 		"*://flagdb.herokuapp.com/*",
-		"activeTab",
-		"alarms",
-		"bookmarks",
-		"contextMenus",
-		"cookies",
-		"downloads",
-		"downloads.open",
-		"history",
-		"idle",
-		"nativeMessaging",
-		"notifications",
-		"storage",
-		"tabs",
-		"webNavigation",
-		"webRequest",
-		"webRequestBlocking"
-	],
-	"content_scripts": [
-		{
-			"matches": ["*://*/*"],
-			"js": ["contentscr.js"],
-			"run_at": "document_start"
-		}
+		"tabs"
 	],
 	"background":{
 		"scripts":["bg.js"]

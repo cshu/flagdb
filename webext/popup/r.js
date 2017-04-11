@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						//		chrome.browserAction.setIcon({path:"icons/negative32.png",tabId:tabid});
 						//	}
 						//}else{
-						//	chrome.browserAction.setIcon({path:"icons/zero32.png",tabId:tabid});
+						//	chrome.browserAction.setIcon({path:"icons/zero32.png",tabId:tabid});//? relative path doesn't work here??
 						//}
 						//chrome.browserAction.setPopup({tabId:tabid,popup:'/popup/r.htm?r='+message+'&h='+encodedh+'&i='+tabid})
 						chrome.runtime.sendMessage('?r='+message+'&h='+encodedh+'&i='+tabid);
