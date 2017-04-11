@@ -2,21 +2,129 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link href="index.css" rel="stylesheet" />
 		<style>
+		body{
+			text-align: center;
+			font-family: Verdana, Georgia, Arial, sans-serif;
+		}
+		input{
+			width: 90%
+		}
+		a{
+			text-decoration:none;
+			color:#5570bf;
+			font-size:80%;
+		}
+		a:hover{
+			text-decoration:underline;
+			background-color:#c6e7f6;
+		}
+		div:hover{
+			cursor:pointer;
+		}
+		.triin{
+			width: 0; 
+			height: 0; 
+			border-left: 22px solid transparent;
+			border-right: 22px solid transparent;
+			border-bottom: 24px solid black;
+		}
+		.tride{
+			width: 0; 
+			height: 0; 
+			border-left: 22px solid transparent;
+			border-right: 22px solid transparent;
+			border-top: 24px solid black;
+		}
 		</style>
 		<title>FlagDB</title>
 	</head>
 	<body>
+		<a href="https://github.com/cshu/flagdb">Get WebExtension to access the database from browser</a>
+		<br />
+		<br />
 		<label>
-		<input type="text" id="setextin" />
+		Check:
+		<input type="text" id="sehostnmin" placeholder="Enter a hostname (domain)" autofocus />
 		</label>
-		<div>
-		</div>
+		<table style="margin:30px;display:none" id="hiddent"><tr><td>
+			<div class="triin" id="buttoni"></div>
+			<div id="hostnmr">?</div>
+			<div class="tride" id="buttond"></div>
+			</td><td id="hostnmtd" style="padding:10px">
+			</td></tr>
+		</table>
 		<script>
 document.addEventListener("DOMContentLoaded", function(event) {
-	document.getElementById('seurlin').onkeydown=function(ke){
+	//var h_hostnmr=document.getElementById('hostnmr');
+	function xhrr(firstb){
+		var cohostnm=document.getElementById('hostnmtd').textContent;
+		var xhr = new XMLHttpRequest;
+		xhr.open('POST','/');
+		xhr.responseType='arraybuffer';
+		xhr.setRequestHeader('Content-type','text/plain');//? no need to set charset=x-user-defined
+		xhr.setRequestHeader('Accept','*/*');
+		xhr.setRequestHeader('Accept-Language','*');
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState===XMLHttpRequest.DONE){
+				switch(xhr.status){
+				case 200:
+					var xres=xhr.response;
+					if(xres.byteLength && document.getElementById('hostnmtd').textContent===cohostnm){
+						document.getElementById('hostnmr').textContent=new DataView(xres).getInt32(0,true);
+					}
+					break;
+				default:
+					throw new Error(xhr.status);
+					break;
+				}
+			}
+		};
+		xhr.send(new Blob([new Uint8Array([firstb]),cohostnm]));
+	}
+	document.getElementById('buttoni').onclick=function(){
+		//var r=parseFloat(h_hostnmr.textContent);
+		//if(isNaN(r))return;
+		xhrr(1);
+	};
+	document.getElementById('buttond').onclick=function(){
+		xhrr(2);
+	};
+	document.getElementById('sehostnmin').onkeydown=function(ke){
 		if(ke.keyCode!==0x0d)return;
+		if(!this.value)return;
+		if(this.value.indexOf('/')!==-1){
+			alert('Not a hostname (domain)');
+			return;
+		}
+		this.value=this.value.toLowerCase();
+		var cothisv=this.value;
+		var xhr = new XMLHttpRequest;
+		xhr.open('POST','/');
+		xhr.responseType='arraybuffer';
+		xhr.setRequestHeader('Content-type','text/plain');//? no need to set charset=x-user-defined
+		xhr.setRequestHeader('Accept','*/*');
+		xhr.setRequestHeader('Accept-Language','*');
+		//freezeui();
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState===XMLHttpRequest.DONE){
+				switch(xhr.status){
+				case 200:
+					var xres=xhr.response;
+					//unfreezeui();
+					//cb(xres,secondarg);
+					if(!xres.byteLength) throw new Error();
+					document.getElementById('hostnmr').textContent=new DataView(xres).getInt32(0,true);
+					document.getElementById('hostnmtd').textContent=cothisv;
+					document.getElementById('hiddent').style.display='';
+					break;
+				default:
+					throw new Error(xhr.status);
+					break;
+				}
+			}
+		};
+		xhr.send(new Blob([new Uint8Array(1),this.value]));
 	};
 });
 		</script>
