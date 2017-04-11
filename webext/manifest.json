@@ -4,7 +4,7 @@
 	"version": "1.0",
 	"applications": {
 		"gecko": {
-			"strict_min_version": "45.0"
+			"strict_min_version": "48.0"
 		}
 	},
 	"description": "Show different color on an icon to denote good or bad rating of a website. Use FlagDB (http://flagdb.herokuapp.com/).",
