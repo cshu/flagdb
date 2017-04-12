@@ -5,6 +5,14 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabInfo) {
 		chrome.browserAction.setPopup({tabId:tabid,popup:''});
 		var temh = document.createElement('a');
 		temh.href=changeInfo.url;
+		switch(temh.protocol.toLowerCase()){
+		case 'https:':
+		case 'http:':
+		case 'ftp:':
+			break;
+		default://? sometimes there are internal protocols of browser?
+			return;
+		}
 		if(temh.hostname){
 			var encodedh=encodeURIComponent(temh.hostname);
 			var xhr = new XMLHttpRequest;
