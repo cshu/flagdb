@@ -20,7 +20,8 @@ func main() {
 	log.SetFlags(log.LstdFlags|log.Lshortfile)
 	htmlbytes,err:=ioutil.ReadFile("index.htm")
 	if err!=nil{
-		log.Fatalln(err)
+		log.Println(err)//log.fatal is rarely useful, use panic in most cases
+		panic(1)
 	}
 	dburl:=os.Getenv("DATABASE_URL")
 	//remove?
@@ -28,10 +29,13 @@ func main() {
 	//connection += " sslmode=require"
 	db,err:=sql.Open("postgres",dburl)
 	if err!=nil{
-		log.Fatalln(err)
+		log.Println(err)
+		panic(1)
 	}
+	defer db.Close()//? not really necessary 'cos it will be closed when program ends? there is no leak?
 	if _,err:=db.Exec("CREATE TABLE IF NOT EXISTS sp_urlrate(u bytea,i4 bytea,i6 bytea,d4 bytea,d6 bytea)"); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		panic(1)
 	}
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
 		//log.Println("RemoteAddr: "+r.RemoteAddr)//remove
